@@ -10,11 +10,33 @@ const container = document.getElementById("container"); // "Traemos" utilizando 
  * Los datos se mostrarán dentro del div de id "container" y por cada ítem se está creando un nuevo párrafo donde se
  * imprime el campo "name" y el campo "lastname" separados por un espacio
  */
+
+fetch(DATA_URL)
+  .then(response =>{
+
+    if (!response.ok){
+      throw new Error('Error en la solicitud: ' + response.status);
+    }
+    
+    return response.json();
+
+  })
+  .then(data => {
+    showData(data.students);
+    console.log(data.students);
+  })
+  .catch(error => {
+    console.error('Hubo un problema con la solicitud:', error);
+  });
+
+
 function showData(dataArray) {
   // El for itera sobre los elementos del array
+  let contador = 0;
   for (const item of dataArray) {
+    contador++;
     // En la siguiente línea se utilizan "backticks" para armar el String. Más info => https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Template_literals
-    container.innerHTML += `<p> ${item.name} ${item.lastname} </p>`; // Se concatena cada párrafo de la manera que queremos mostrarlo al innerHTML del contenedor
+    container.innerHTML += `<p>Estudiante N°${contador}: <strong>${item.name} ${item.lastname}</strong> </p>`; // Se concatena cada párrafo de la manera que queremos mostrarlo al innerHTML del contenedor
   }
 }
 
